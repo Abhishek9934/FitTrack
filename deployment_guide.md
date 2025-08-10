@@ -10,12 +10,21 @@ Your fitness tracker app uses CSV files for data storage, making it simple to de
 - GitHub account
 - Your code in a GitHub repository
 
-### Steps:
-1. Push your code to GitHub
-2. Go to [share.streamlit.io](https://share.streamlit.io)
-3. Connect your GitHub account
-4. Select your repository and main file (`app.py`)
-5. Deploy with one click
+### Setup Steps:
+1. **Prepare Repository:**
+   - Remove custom port configuration from `.streamlit/config.toml`
+   - Use `streamlit_requirements.txt` for dependencies
+   - Ensure `app.py` is in the root directory
+
+2. **Deploy:**
+   - Push code to GitHub
+   - Go to [share.streamlit.io](https://share.streamlit.io)
+   - Connect GitHub account
+   - Select repository and `app.py`
+   - Deploy
+
+### Important Configuration Fix:
+Your app was configured for port 5000, but Streamlit Cloud uses the default port 8501. I've updated the configuration to be compatible with both environments.
 
 ### Pros:
 - Free hosting
@@ -26,6 +35,9 @@ Your fitness tracker app uses CSV files for data storage, making it simple to de
 ### Cons:
 - Data stored in temporary storage (resets on app restart)
 - Limited to Streamlit Cloud infrastructure
+
+### Data Persistence Note:
+For Streamlit Cloud, consider upgrading to a paid plan or use external storage (Google Sheets, GitHub files) for data persistence.
 
 ## Option 2: Docker + VPS/Cloud Server
 **Best for: Full control and persistent data**
