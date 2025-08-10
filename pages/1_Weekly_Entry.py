@@ -80,8 +80,8 @@ st.markdown("""
 data_manager = DataManager()
 
 def main():
-    # Add mobile header
-    add_mobile_header("Weekly Entry", "📅")
+    # Add mobile header with FontAwesome icon
+    add_mobile_header("Weekly Entry", "fas fa-plus-circle")
     
     # Date selection
     col1, col2 = st.columns([1, 2])
@@ -121,7 +121,7 @@ def main():
         
         body_notes = st.text_area("Notes (optional)", placeholder="Any observations, how you're feeling, etc.")
         
-        if st.button("💾 Save Body Metrics", type="primary"):
+        if st.button("💾 Save Body Metrics", type="primary", use_container_width=True):
             success = data_manager.save_body_metrics(
                 date=datetime.combine(selected_date, datetime.min.time()),
                 weight=weight,

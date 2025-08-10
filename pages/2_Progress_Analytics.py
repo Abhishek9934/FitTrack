@@ -81,8 +81,8 @@ data_manager = DataManager()
 analytics = Analytics(data_manager)
 
 def main():
-    # Add mobile header
-    add_mobile_header("Progress Analytics", "📈")
+    # Add mobile header with FontAwesome icon
+    add_mobile_header("Progress Analytics", "fas fa-chart-line")
     
     # Load data
     body_metrics = data_manager.load_body_metrics()

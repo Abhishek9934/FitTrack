@@ -125,8 +125,8 @@ inject_mobile_enhancements()
 data_manager = DataManager()
 
 def main():
-    # Add mobile header instead of regular title
-    add_mobile_header("Fitness Tracker", "🏋️‍♂️")
+    # Add mobile header with FontAwesome icon
+    add_mobile_header("Fitness Tracker", "fas fa-dumbbell")
     
     # PWA Installation prompt
     st.markdown("""

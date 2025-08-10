@@ -91,8 +91,8 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 def main():
-    # Add mobile header
-    add_mobile_header("Plan Overview", "📋")
+    # Add mobile header with FontAwesome icon
+    add_mobile_header("Plan Overview", "fas fa-clipboard-list")
     st.markdown("**Target:** 2,000–2,200 kcal/day | **Macros:** P: 170–180g | C: 180–200g | F: 55–65g")
     
     # Overview tabs
