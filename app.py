@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 import os
 from utils.data_manager import DataManager
 from utils.analytics import Analytics
-from utils.mobile_nav import render_mobile_navigation, add_mobile_header
+from utils.mobile_nav import add_mobile_header
 
 # Configure page for mobile-first PWA
 st.set_page_config(
@@ -324,5 +324,3 @@ def main():
 if __name__ == "__main__":
     inject_mobile_enhancements()
     main()
-    # Add mobile navigation at the bottom
-    render_mobile_navigation()

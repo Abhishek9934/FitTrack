@@ -3,7 +3,7 @@ import pandas as pd
 from datetime import datetime, timedelta
 from utils.data_manager import DataManager
 from utils.workout_plans import get_weekly_plan
-from utils.mobile_nav import render_mobile_navigation, add_mobile_header, add_floating_action_button
+from utils.mobile_nav import add_mobile_header
 
 # Configure page for mobile
 st.set_page_config(
@@ -326,4 +326,4 @@ def main():
 if __name__ == "__main__":
     main()
     # Add mobile navigation
-    render_mobile_navigation()
+
