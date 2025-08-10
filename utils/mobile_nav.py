@@ -1,9 +1,9 @@
 import streamlit as st
 
 def render_mobile_navigation():
-    """Render fixed mobile bottom navigation"""
+    """Render fixed mobile bottom navigation with working buttons"""
     
-    # Add padding to main content and create the fixed navigation
+    # Add the fixed navigation styling and positioning
     st.markdown("""
     <style>
     /* Add bottom padding to main content for navigation space */
@@ -19,105 +19,81 @@ def render_mobile_navigation():
     }
     
     /* Fixed navigation container */
-    .fixed-nav-container {
+    .mobile-nav-fixed {
         position: fixed;
         bottom: 0;
         left: 0;
         right: 0;
         background: white;
         border-top: 2px solid #e0e6ed;
-        padding: 12px 8px;
+        padding: 8px;
         z-index: 999999;
         box-shadow: 0 -4px 20px rgba(0,0,0,0.15);
-        backdrop-filter: blur(10px);
     }
     
-    /* Navigation grid layout */
-    .nav-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr 1fr 1fr;
-        gap: 8px;
-        max-width: 500px;
-        margin: 0 auto;
-    }
-    
-    /* Navigation buttons */
-    .nav-button {
-        background: #f8f9fa;
-        border: 1px solid #dee2e6;
+    /* Make navigation buttons full width and mobile-friendly */
+    .mobile-nav-fixed .stButton > button {
+        width: 100%;
+        height: 60px;
         border-radius: 12px;
-        padding: 12px 8px;
-        text-align: center;
-        text-decoration: none;
+        border: 1px solid #dee2e6;
+        background: #f8f9fa;
         color: #495057;
-        font-size: 12px;
+        font-size: 11px;
         font-weight: 500;
         transition: all 0.2s ease;
-        cursor: pointer;
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 4px;
+        justify-content: center;
+        gap: 2px;
+        padding: 8px 4px;
     }
     
-    .nav-button:hover {
+    .mobile-nav-fixed .stButton > button:hover {
         background: #e9ecef;
         color: #007bff;
         transform: translateY(-1px);
         box-shadow: 0 2px 8px rgba(0,123,255,0.2);
     }
     
-    .nav-button-icon {
-        font-size: 20px;
-        line-height: 1;
-    }
-    
-    .nav-button-label {
-        font-size: 11px;
-        font-weight: 500;
-        line-height: 1;
-    }
-    
-    /* Mobile responsive */
+    /* Mobile responsive adjustments */
     @media (max-width: 480px) {
-        .nav-button {
-            padding: 10px 6px;
-        }
-        
-        .nav-button-icon {
-            font-size: 18px;
-        }
-        
-        .nav-button-label {
+        .mobile-nav-fixed .stButton > button {
+            height: 55px;
             font-size: 10px;
+        }
+        
+        .mobile-nav-fixed {
+            padding: 6px;
         }
     }
     </style>
     """, unsafe_allow_html=True)
     
-    # Create the fixed navigation HTML
-    st.markdown("""
-    <div class="fixed-nav-container">
-        <div class="nav-grid">
-            <a href="/" class="nav-button">
-                <div class="nav-button-icon">🏠</div>
-                <div class="nav-button-label">Home</div>
-            </a>
-            <a href="/1_Weekly_Entry" class="nav-button">
-                <div class="nav-button-icon">📝</div>
-                <div class="nav-button-label">Log</div>
-            </a>
-            <a href="/2_Progress_Analytics" class="nav-button">
-                <div class="nav-button-icon">📊</div>
-                <div class="nav-button-label">Stats</div>
-            </a>
-            <a href="/3_Plan_Overview" class="nav-button">
-                <div class="nav-button-icon">📋</div>
-                <div class="nav-button-label">Plan</div>
-            </a>
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
+    # Create a container with fixed positioning
+    st.markdown('<div class="mobile-nav-fixed">', unsafe_allow_html=True)
+    
+    # Create the navigation buttons using Streamlit columns
+    col1, col2, col3, col4 = st.columns(4)
+    
+    with col1:
+        if st.button("🏠\nHome", key="fixed_nav_home", use_container_width=True):
+            st.switch_page("app.py")
+    
+    with col2:
+        if st.button("📝\nLog", key="fixed_nav_log", use_container_width=True):
+            st.switch_page("pages/1_Weekly_Entry.py")
+    
+    with col3:
+        if st.button("📊\nStats", key="fixed_nav_stats", use_container_width=True):
+            st.switch_page("pages/2_Progress_Analytics.py")
+    
+    with col4:
+        if st.button("📋\nPlan", key="fixed_nav_plan", use_container_width=True):
+            st.switch_page("pages/3_Plan_Overview.py")
+    
+    st.markdown('</div>', unsafe_allow_html=True)
 
 def add_mobile_header(page_title, icon_class="fas fa-mobile-alt"):
     """Add mobile-friendly header with modern design"""
