@@ -1,14 +1,14 @@
 import streamlit as st
 
 def render_mobile_navigation():
-    """Render fixed mobile bottom navigation using components"""
+    """Render fixed mobile bottom navigation"""
     
-    # Add CSS styles first
+    # Add padding to main content and create the fixed navigation
     st.markdown("""
     <style>
     /* Add bottom padding to main content for navigation space */
     .main > div {
-        padding-bottom: 90px !important;
+        padding-bottom: 100px !important;
     }
     
     /* Hide Streamlit sidebar on mobile */
@@ -17,52 +17,107 @@ def render_mobile_navigation():
             display: none !important;
         }
     }
+    
+    /* Fixed navigation container */
+    .fixed-nav-container {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: white;
+        border-top: 2px solid #e0e6ed;
+        padding: 12px 8px;
+        z-index: 999999;
+        box-shadow: 0 -4px 20px rgba(0,0,0,0.15);
+        backdrop-filter: blur(10px);
+    }
+    
+    /* Navigation grid layout */
+    .nav-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+        gap: 8px;
+        max-width: 500px;
+        margin: 0 auto;
+    }
+    
+    /* Navigation buttons */
+    .nav-button {
+        background: #f8f9fa;
+        border: 1px solid #dee2e6;
+        border-radius: 12px;
+        padding: 12px 8px;
+        text-align: center;
+        text-decoration: none;
+        color: #495057;
+        font-size: 12px;
+        font-weight: 500;
+        transition: all 0.2s ease;
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 4px;
+    }
+    
+    .nav-button:hover {
+        background: #e9ecef;
+        color: #007bff;
+        transform: translateY(-1px);
+        box-shadow: 0 2px 8px rgba(0,123,255,0.2);
+    }
+    
+    .nav-button-icon {
+        font-size: 20px;
+        line-height: 1;
+    }
+    
+    .nav-button-label {
+        font-size: 11px;
+        font-weight: 500;
+        line-height: 1;
+    }
+    
+    /* Mobile responsive */
+    @media (max-width: 480px) {
+        .nav-button {
+            padding: 10px 6px;
+        }
+        
+        .nav-button-icon {
+            font-size: 18px;
+        }
+        
+        .nav-button-label {
+            font-size: 10px;
+        }
+    }
     </style>
     """, unsafe_allow_html=True)
     
-    # Create a fixed container at the bottom
-    nav_container = st.container()
-    
-    with nav_container:
-        # Add the navigation HTML in a separate markdown block
-        st.markdown("""
-        <div style="
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: white;
-            border-top: 1px solid #ddd;
-            padding: 10px 0;
-            z-index: 999;
-            display: flex;
-            justify-content: space-around;
-            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
-        ">
+    # Create the fixed navigation HTML
+    st.markdown("""
+    <div class="fixed-nav-container">
+        <div class="nav-grid">
+            <a href="/" class="nav-button">
+                <div class="nav-button-icon">🏠</div>
+                <div class="nav-button-label">Home</div>
+            </a>
+            <a href="/1_Weekly_Entry" class="nav-button">
+                <div class="nav-button-icon">📝</div>
+                <div class="nav-button-label">Log</div>
+            </a>
+            <a href="/2_Progress_Analytics" class="nav-button">
+                <div class="nav-button-icon">📊</div>
+                <div class="nav-button-label">Stats</div>
+            </a>
+            <a href="/3_Plan_Overview" class="nav-button">
+                <div class="nav-button-icon">📋</div>
+                <div class="nav-button-label">Plan</div>
+            </a>
         </div>
-        """, unsafe_allow_html=True)
-    
-    # Create navigation using Streamlit columns instead
-    st.markdown("---")
-    st.subheader("Quick Navigation")
-    
-    col1, col2, col3, col4 = st.columns(4)
-    
-    with col1:
-        if st.button("🏠\nHome", key="nav_home_btn", use_container_width=True):
-            st.switch_page("app.py")
-    
-    with col2:
-        if st.button("📝\nLog", key="nav_log_btn", use_container_width=True):
-            st.switch_page("pages/1_Weekly_Entry.py")
-    
-    with col3:
-        if st.button("📊\nStats", key="nav_stats_btn", use_container_width=True):
-            st.switch_page("pages/2_Progress_Analytics.py")
-    
-    with col4:
-        if st.button("📋\nPlan", key="nav_plan_btn", use_container_width=True):
-            st.switch_page("pages/3_Plan_Overview.py")
+    </div>
+    """, unsafe_allow_html=True)
 
 def add_mobile_header(page_title, icon_class="fas fa-mobile-alt"):
     """Add mobile-friendly header with modern design"""
