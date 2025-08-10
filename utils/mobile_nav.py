@@ -3,103 +3,70 @@ import streamlit as st
 def render_mobile_navigation():
     """Render fixed mobile bottom navigation bar"""
     
-    # Get current page to highlight active button
-    import urllib.parse
-    current_path = st.query_params.get("page", "")
-    
     st.markdown("""
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
     <style>
     /* Fixed bottom navigation bar */
-    .bottom-nav {
+    .mobile-bottom-nav {
         position: fixed;
         bottom: 0;
         left: 0;
         right: 0;
-        background: rgba(255, 255, 255, 0.95);
-        backdrop-filter: blur(20px);
-        border-top: 1px solid rgba(0, 0, 0, 0.1);
-        padding: 8px 0 max(8px, env(safe-area-inset-bottom));
-        z-index: 1000;
+        background: #ffffff;
+        border-top: 1px solid #e1e5e9;
+        padding: 10px 0;
+        z-index: 999999;
         display: flex;
         justify-content: space-around;
         align-items: center;
-        box-shadow: 0 -2px 20px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 -2px 15px rgba(0, 0, 0, 0.1);
+        height: 65px;
     }
     
     /* Navigation items */
-    .nav-btn {
+    .nav-item {
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        padding: 8px 12px;
-        border-radius: 12px;
         text-decoration: none;
         color: #8e8e93;
         font-size: 10px;
         font-weight: 500;
-        transition: all 0.2s ease;
+        transition: color 0.2s ease;
         cursor: pointer;
-        min-width: 60px;
-        background: none;
-        border: none;
+        padding: 5px 10px;
+        border-radius: 8px;
+        min-width: 50px;
     }
     
-    .nav-btn:hover {
-        background: rgba(0, 122, 255, 0.1);
+    .nav-item:hover {
         color: #007aff;
-        transform: translateY(-1px);
+        background: rgba(0, 122, 255, 0.05);
     }
     
-    .nav-btn.active {
-        color: #007aff;
-        background: rgba(0, 122, 255, 0.1);
-    }
-    
-    .nav-btn.active::before {
-        content: '';
-        position: absolute;
-        top: -1px;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 4px;
-        height: 4px;
-        background: #007aff;
-        border-radius: 50%;
-    }
-    
-    .nav-icon {
-        font-size: 20px;
+    .nav-item-icon {
+        font-size: 22px;
         margin-bottom: 2px;
-        transition: transform 0.2s ease;
+        display: block;
     }
     
-    .nav-btn:hover .nav-icon {
-        transform: scale(1.1);
-    }
-    
-    .nav-label {
+    .nav-item-label {
         font-size: 10px;
         font-weight: 500;
         line-height: 1;
     }
     
-    /* Add safe area for iPhones */
-    @supports (padding: max(0px)) {
-        .bottom-nav {
-            padding-bottom: max(8px, env(safe-area-inset-bottom));
-        }
-    }
-    
     /* Add bottom padding to main content */
     .main > div {
-        padding-bottom: 90px !important;
+        padding-bottom: 85px !important;
     }
     
     /* Hide Streamlit sidebar on mobile */
     @media (max-width: 768px) {
+        [data-testid="stSidebar"] {
+            display: none !important;
+        }
+        
         .css-1d391kg {
             display: none !important;
         }
@@ -110,78 +77,52 @@ def render_mobile_navigation():
         }
     }
     
-    /* Responsive adjustments */
+    /* Mobile optimizations */
     @media (max-width: 480px) {
-        .nav-btn {
-            min-width: 50px;
-            padding: 6px 8px;
+        .nav-item {
+            min-width: 45px;
+            padding: 4px 8px;
         }
         
-        .nav-icon {
-            font-size: 18px;
+        .nav-item-icon {
+            font-size: 20px;
         }
         
-        .nav-label {
+        .nav-item-label {
             font-size: 9px;
+        }
+        
+        .mobile-bottom-nav {
+            height: 60px;
+        }
+        
+        .main > div {
+            padding-bottom: 75px !important;
         }
     }
     </style>
     
-    <div class="bottom-nav">
-        <button class="nav-btn" onclick="window.location.href='/'" id="nav-home">
-            <i class="fas fa-home nav-icon"></i>
-            <span class="nav-label">Home</span>
-        </button>
+    <div class="mobile-bottom-nav">
+        <a href="/" class="nav-item">
+            <span class="nav-item-icon">🏠</span>
+            <span class="nav-item-label">Home</span>
+        </a>
         
-        <button class="nav-btn" onclick="window.location.href='/1_Weekly_Entry'" id="nav-entry">
-            <i class="fas fa-plus-circle nav-icon"></i>
-            <span class="nav-label">Log</span>
-        </button>
+        <a href="/1_Weekly_Entry" class="nav-item">
+            <span class="nav-item-icon">📝</span>
+            <span class="nav-item-label">Log</span>
+        </a>
         
-        <button class="nav-btn" onclick="window.location.href='/2_Progress_Analytics'" id="nav-analytics">
-            <i class="fas fa-chart-line nav-icon"></i>
-            <span class="nav-label">Stats</span>
-        </button>
+        <a href="/2_Progress_Analytics" class="nav-item">
+            <span class="nav-item-icon">📊</span>
+            <span class="nav-item-label">Stats</span>
+        </a>
         
-        <button class="nav-btn" onclick="window.location.href='/3_Plan_Overview'" id="nav-plan">
-            <i class="fas fa-clipboard-list nav-icon"></i>
-            <span class="nav-label">Plan</span>
-        </button>
+        <a href="/3_Plan_Overview" class="nav-item">
+            <span class="nav-item-icon">📋</span>
+            <span class="nav-item-label">Plan</span>
+        </a>
     </div>
-    
-    <script>
-    // Set active navigation item based on current page
-    function setActiveNav() {
-        const currentPath = window.location.pathname;
-        const navItems = document.querySelectorAll('.nav-btn');
-        
-        // Remove active class from all items
-        navItems.forEach(item => item.classList.remove('active'));
-        
-        // Add active class to current page
-        if (currentPath === '/' || currentPath === '' || currentPath.includes('app.py')) {
-            document.getElementById('nav-home').classList.add('active');
-        } else if (currentPath.includes('1_Weekly_Entry')) {
-            document.getElementById('nav-entry').classList.add('active');
-        } else if (currentPath.includes('2_Progress_Analytics')) {
-            document.getElementById('nav-analytics').classList.add('active');
-        } else if (currentPath.includes('3_Plan_Overview')) {
-            document.getElementById('nav-plan').classList.add('active');
-        }
-    }
-    
-    // Run on page load
-    document.addEventListener('DOMContentLoaded', setActiveNav);
-    
-    // Add haptic feedback for mobile devices
-    document.querySelectorAll('.nav-btn').forEach(btn => {
-        btn.addEventListener('click', function() {
-            if (navigator.vibrate) {
-                navigator.vibrate(50);
-            }
-        });
-    });
-    </script>
     """, unsafe_allow_html=True)
 
 def add_mobile_header(page_title, icon_class="fas fa-mobile-alt"):
