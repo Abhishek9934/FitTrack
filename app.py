@@ -346,23 +346,39 @@ def main():
             st.info("📝 Start tracking to enable data export")
     
     with col2:
-        # Reset data functionality
-        if st.button("🗑️ Reset All Data", key="reset_btn", use_container_width=True, type="secondary"):
+        # Reset data functionality with session state
+        if 'show_reset_confirm' not in st.session_state:
+            st.session_state.show_reset_confirm = False
+        
+        if not st.session_state.show_reset_confirm:
+            if st.button("🗑️ Reset All Data", key="reset_btn", use_container_width=True, type="secondary"):
+                st.session_state.show_reset_confirm = True
+                st.rerun()
+        else:
             st.warning("⚠️ This will permanently delete all your fitness data!")
             
             col_confirm, col_cancel = st.columns(2)
             with col_confirm:
                 if st.button("✅ Confirm Reset", key="confirm_reset", use_container_width=True):
-                    if data_manager.reset_all_data():
-                        st.success("✅ All data has been reset successfully!")
-                        st.info("🔄 Please refresh the page to see the changes.")
-                        st.balloons()
-                    else:
-                        st.error("❌ Failed to reset data. Please try again.")
+                    with st.spinner("Resetting all data..."):
+                        if data_manager.reset_all_data():
+                            # Clear any cached data in session state
+                            for key in list(st.session_state.keys()):
+                                if key.startswith(('body_', 'workout_', 'diet_')):
+                                    del st.session_state[key]
+                            
+                            st.session_state.show_reset_confirm = False
+                            st.success("✅ All data has been reset successfully!")
+                            st.info("🔄 Refreshing the app...")
+                            st.balloons()
+                            st.rerun()
+                        else:
+                            st.error("❌ Failed to reset data. Please try again.")
             
             with col_cancel:
                 if st.button("❌ Cancel", key="cancel_reset", use_container_width=True):
-                    st.info("Reset cancelled.")
+                    st.session_state.show_reset_confirm = False
+                    st.rerun()
 
 if __name__ == "__main__":
     inject_mobile_enhancements()
