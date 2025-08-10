@@ -1,12 +1,93 @@
 import streamlit as st
 from utils.workout_plans import get_weekly_plan, get_daily_targets, get_exercise_categories
 
-# Configure page
+# Configure page for mobile
 st.set_page_config(
     page_title="Plan Overview - Fitness Tracker",
     page_icon="📋",
     layout="wide"
 )
+
+# Mobile enhancements
+st.markdown("""
+<style>
+    @import url('/static/css/mobile_styles.css');
+    
+    /* Plan overview optimizations */
+    .stSelectbox > div > div {
+        min-height: 3rem;
+        font-size: 1.1rem;
+        border-radius: 8px;
+    }
+    
+    /* Enhanced expandable sections */
+    .streamlit-expanderHeader {
+        background: #F8F9FA;
+        border-radius: 8px;
+        padding: 1rem;
+        font-weight: 600;
+        margin: 0.5rem 0;
+        border: 1px solid #E0E0E0;
+    }
+    
+    .streamlit-expanderHeader:hover {
+        background: #E9ECEF;
+        border-color: #FF6B6B;
+    }
+    
+    /* Exercise list styling */
+    .exercise-list {
+        background: #F8F9FA;
+        padding: 1rem;
+        border-radius: 8px;
+        margin: 0.5rem 0;
+        border-left: 4px solid #4ECDC4;
+    }
+    
+    /* Meal plan styling */
+    .meal-plan {
+        background: white;
+        padding: 1.5rem;
+        border-radius: 12px;
+        margin: 1rem 0;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        border-left: 4px solid #FF6B6B;
+    }
+    
+    /* Mobile-friendly tables */
+    .dataframe {
+        font-size: 0.85rem;
+        overflow-x: auto;
+    }
+    
+    /* Section spacing */
+    h3 {
+        margin: 1.5rem 0 1rem 0;
+        color: #2C3E50;
+    }
+    
+    /* Card-like containers */
+    .metric-card {
+        background: white;
+        padding: 1.5rem;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        margin: 1rem 0;
+    }
+    
+    @media (max-width: 768px) {
+        /* Mobile table adjustments */
+        .dataframe {
+            font-size: 0.8rem;
+        }
+        
+        /* Compact sections */
+        .streamlit-expanderContent {
+            padding: 1rem;
+        }
+    }
+</style>
+""", unsafe_allow_html=True)
 
 def main():
     st.title("📋 7-Day Fat-Loss Workout + Indian Diet Master Plan")

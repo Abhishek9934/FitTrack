@@ -4,12 +4,76 @@ from datetime import datetime, timedelta
 from utils.data_manager import DataManager
 from utils.analytics import Analytics
 
-# Configure page
+# Configure page for mobile
 st.set_page_config(
     page_title="Progress Analytics - Fitness Tracker",
     page_icon="📈",
     layout="wide"
 )
+
+# Mobile enhancements
+st.markdown("""
+<style>
+    @import url('/static/css/mobile_styles.css');
+    
+    /* Analytics page optimizations */
+    .plotly {
+        width: 100% !important;
+        height: auto !important;
+    }
+    
+    .js-plotly-plot {
+        margin: 1rem 0;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    
+    /* Mobile-friendly tabs */
+    .stTabs [data-baseweb="tab-list"] {
+        overflow-x: auto;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+    }
+    
+    .stTabs [data-baseweb="tab-list"]::-webkit-scrollbar {
+        display: none;
+    }
+    
+    /* Enhanced metrics grid */
+    [data-testid="metric-container"] {
+        background: linear-gradient(135deg, #ffffff, #f8f9fa);
+        border-radius: 12px;
+        padding: 1.5rem;
+        margin: 0.75rem 0;
+        box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+        border-left: 4px solid #4ECDC4;
+    }
+    
+    /* Dataframe styling */
+    .dataframe {
+        font-size: 0.9rem;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+    
+    /* Progress indicators */
+    .stProgress > div > div {
+        border-radius: 8px;
+        height: 1rem;
+    }
+    
+    @media (max-width: 768px) {
+        .js-plotly-plot {
+            height: 300px !important;
+        }
+        
+        /* Stack metrics vertically on mobile */
+        [data-testid="column"] {
+            margin-bottom: 1rem;
+        }
+    }
+</style>
+""", unsafe_allow_html=True)
 
 # Initialize data manager and analytics
 data_manager = DataManager()

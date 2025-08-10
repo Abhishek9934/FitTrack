@@ -5,13 +5,120 @@ import os
 from utils.data_manager import DataManager
 from utils.analytics import Analytics
 
-# Configure page
+# Configure page for mobile-first PWA
 st.set_page_config(
     page_title="Fitness Progress Tracker",
     page_icon="🏋️‍♂️",
     layout="wide",
-    initial_sidebar_state="expanded"
+    initial_sidebar_state="auto"
 )
+
+# Inject mobile-first CSS and PWA features
+def inject_mobile_enhancements():
+    st.markdown("""
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <meta name="theme-color" content="#FF6B6B">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Fitness Tracker">
+    <link rel="manifest" href="/static/manifest.json">
+    <link rel="apple-touch-icon" href="/static/icons/icon-192x192.png">
+    
+    <style>
+        /* Import mobile styles */
+        @import url('/static/css/mobile_styles.css');
+        
+        /* Additional mobile optimizations */
+        .main .block-container {
+            padding: 1rem 0.75rem;
+            max-width: 100%;
+        }
+        
+        /* Mobile-first button styling */
+        .stButton > button {
+            min-height: 3.5rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 12px;
+            margin: 0.5rem 0;
+            transition: all 0.3s ease;
+        }
+        
+        .stButton > button:active {
+            transform: scale(0.98);
+        }
+        
+        /* Enhanced metrics for mobile */
+        [data-testid="metric-container"] {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+            border: 1px solid #E8E8E8;
+            margin: 0.75rem 0;
+        }
+        
+        /* Mobile navigation */
+        .css-1d391kg {
+            padding: 1rem;
+        }
+        
+        /* Input styling for mobile */
+        .stNumberInput input, .stTextInput input, .stSelectbox select {
+            min-height: 3rem;
+            font-size: 1.1rem;
+            border-radius: 8px;
+            border: 2px solid #E0E0E0;
+            padding: 0.75rem;
+        }
+        
+        .stNumberInput input:focus, .stTextInput input:focus {
+            border-color: #FF6B6B;
+            box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.1);
+        }
+        
+        /* Mobile sidebar adjustments */
+        .css-1lcbmhc .css-17eq0hr h2 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+        
+        /* Responsive columns */
+        @media (max-width: 768px) {
+            .row-widget.stHorizontal > div {
+                flex: 1 1 100% !important;
+                margin-bottom: 1rem;
+            }
+        }
+        
+        /* Touch feedback */
+        button:active, .stCheckbox label:active {
+            transform: scale(0.98);
+            transition: transform 0.1s;
+        }
+        
+        /* Enhanced table styling */
+        .dataframe {
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        /* Quick stats styling */
+        .metric-container {
+            background: linear-gradient(135deg, #ffffff, #f8f9fa);
+            border-left: 4px solid #FF6B6B;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 0.75rem 0;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+        }
+    </style>
+    
+    <script src="/static/js/mobile_enhancements.js"></script>
+    """, unsafe_allow_html=True)
+
+inject_mobile_enhancements()
 
 # Initialize data manager
 data_manager = DataManager()
@@ -19,6 +126,16 @@ data_manager = DataManager()
 def main():
     st.title("🏋️‍♂️ Fitness Progress Tracker")
     st.markdown("Track your 7-day workout and diet plan progress")
+    
+    # PWA Installation prompt
+    st.markdown("""
+    <div style="background: linear-gradient(135deg, #4ECDC4, #44A08D); color: white; padding: 1rem; 
+                border-radius: 12px; margin: 1rem 0; text-align: center;">
+        <strong>📱 Install as Mobile App</strong><br>
+        <small>Add to your phone's home screen for the best experience!</small><br>
+        <small>Safari: Share → Add to Home Screen</small>
+    </div>
+    """, unsafe_allow_html=True)
     
     # Sidebar for navigation
     st.sidebar.title("Navigation")
@@ -53,66 +170,96 @@ def main():
     else:
         st.sidebar.info("No data yet. Start tracking your progress!")
     
-    # Main dashboard
-    col1, col2, col3 = st.columns(3)
+    # Main dashboard with mobile-friendly cards
+    st.markdown("""
+    <div style="background: white; border-radius: 16px; padding: 1.5rem; margin: 1rem 0; 
+                box-shadow: 0 4px 16px rgba(0,0,0,0.1); border-left: 6px solid #FF6B6B;">
+        <h3 style="color: #2C3E50; margin: 0 0 1rem 0;">📅 Current Week Progress</h3>
+    </div>
+    """, unsafe_allow_html=True)
     
-    with col1:
-        st.subheader("📅 Current Week Progress")
-        current_week = datetime.now().strftime("%Y-W%U")
-        st.write(f"Week: {current_week}")
-        
-        # Show current week's plan
-        from utils.workout_plans import get_weekly_plan
-        weekly_plan = get_weekly_plan()
-        
-        st.write("**This Week's Focus:**")
-        for day, plan in weekly_plan.items():
-            completed_workouts = workout_data[
-                (workout_data['week'] == current_week) & 
-                (workout_data['day'] == day) & 
-                (workout_data['completed'] == True)
-            ] if not workout_data.empty else pd.DataFrame()
-            
-            status = "✅" if not completed_workouts.empty else "⭕"
-            st.write(f"{status} {day}: {plan['type']}")
+    current_week = datetime.now().strftime("%Y-W%U")
+    st.info(f"📆 Week: {current_week}")
     
-    with col2:
-        st.subheader("📈 Recent Progress")
-        if not body_metrics.empty and len(body_metrics) >= 2:
-            recent_data = body_metrics.tail(2)
-            weight_change = recent_data['weight'].iloc[-1] - recent_data['weight'].iloc[-2]
-            fat_change = recent_data['fat_percentage'].iloc[-1] - recent_data['fat_percentage'].iloc[-2]
-            
-            weight_color = "inverse" if weight_change < 0 else "normal"
-            fat_color = "inverse" if fat_change < 0 else "normal"
-            
+    # Show current week's plan in a mobile-friendly format
+    from utils.workout_plans import get_weekly_plan
+    weekly_plan = get_weekly_plan()
+    
+    # Create workout progress cards
+    for day, plan in weekly_plan.items():
+        completed_workouts = workout_data[
+            (workout_data['week'] == current_week) & 
+            (workout_data['day'] == day) & 
+            (workout_data['completed'] == True)
+        ] if not workout_data.empty else pd.DataFrame()
+        
+        status = "✅" if not completed_workouts.empty else "⭕"
+        status_color = "#4ECDC4" if not completed_workouts.empty else "#E0E0E0"
+        
+        st.markdown(f"""
+        <div style="background: white; border-radius: 12px; padding: 1rem; margin: 0.5rem 0; 
+                    box-shadow: 0 2px 8px rgba(0,0,0,0.1); border-left: 4px solid {status_color};">
+            <strong>{status} {day}</strong><br>
+            <small style="color: #666;">{plan['type']}</small>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    # Progress metrics section
+    st.markdown("""
+    <div style="background: white; border-radius: 16px; padding: 1.5rem; margin: 1.5rem 0; 
+                box-shadow: 0 4px 16px rgba(0,0,0,0.1); border-left: 6px solid #4ECDC4;">
+        <h3 style="color: #2C3E50; margin: 0 0 1rem 0;">📈 Recent Progress</h3>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    if not body_metrics.empty and len(body_metrics) >= 2:
+        recent_data = body_metrics.tail(2)
+        weight_change = recent_data['weight'].iloc[-1] - recent_data['weight'].iloc[-2]
+        fat_change = recent_data['fat_percentage'].iloc[-1] - recent_data['fat_percentage'].iloc[-2]
+        
+        weight_color = "inverse" if weight_change < 0 else "normal"
+        fat_color = "inverse" if fat_change < 0 else "normal"
+        
+        col1, col2 = st.columns(2)
+        with col1:
             st.metric(
-                "Weight Change (Last Entry)", 
+                "Weight Change", 
                 f"{weight_change:+.1f} kg",
                 delta=f"{weight_change:+.1f} kg",
                 delta_color=weight_color
             )
+        with col2:
             st.metric(
-                "Fat % Change (Last Entry)", 
+                "Fat % Change", 
                 f"{fat_change:+.1f}%",
                 delta=f"{fat_change:+.1f}%",
                 delta_color=fat_color
             )
-        else:
-            st.info("Need at least 2 entries to show progress")
+    else:
+        st.info("Need at least 2 entries to show progress")
     
-    with col3:
-        st.subheader("🎯 Goals & Targets")
-        st.write("**Daily Targets:**")
-        st.write("• Calories: 2,000-2,200 kcal")
-        st.write("• Protein: 170-180g")
-        st.write("• Carbs: 180-200g")
-        st.write("• Fat: 55-65g")
-        
-        st.write("**Weekly Goals:**")
-        st.write("• Complete all 7 workouts")
-        st.write("• 80%+ diet adherence")
-        st.write("• Consistent weight tracking")
+    # Goals section
+    st.markdown("""
+    <div style="background: white; border-radius: 16px; padding: 1.5rem; margin: 1.5rem 0; 
+                box-shadow: 0 4px 16px rgba(0,0,0,0.1); border-left: 6px solid #FF8E53;">
+        <h3 style="color: #2C3E50; margin: 0 0 1rem 0;">🎯 Goals & Targets</h3>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <div>
+                <strong>Daily Targets:</strong><br>
+                <small>• Calories: 2,000-2,200 kcal<br>
+                • Protein: 170-180g<br>
+                • Carbs: 180-200g<br>
+                • Fat: 55-65g</small>
+            </div>
+            <div>
+                <strong>Weekly Goals:</strong><br>
+                <small>• Complete all 7 workouts<br>
+                • 80%+ diet adherence<br>
+                • Consistent weight tracking</small>
+            </div>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
     
     # Recent entries
     st.markdown("---")
@@ -138,47 +285,40 @@ def main():
         else:
             st.info("No workouts completed yet")
     
-    # Quick action buttons
-    st.markdown("---")
-    st.subheader("⚡ Quick Actions")
+    # Quick action buttons - Mobile-first design
+    st.markdown("""
+    <div style="background: white; border-radius: 16px; padding: 1.5rem; margin: 1.5rem 0; 
+                box-shadow: 0 4px 16px rgba(0,0,0,0.1); border-left: 6px solid #96CEB4;">
+        <h3 style="color: #2C3E50; margin: 0 0 1rem 0;">⚡ Quick Actions</h3>
+    </div>
+    """, unsafe_allow_html=True)
     
-    col1, col2, col3, col4 = st.columns(4)
+    # Mobile-optimized action buttons
+    if st.button("📊 Enter Today's Metrics", key="metrics_btn", use_container_width=True):
+        st.switch_page("pages/1_Weekly_Entry.py")
     
-    with col1:
-        if st.button("📊 Enter Today's Metrics", use_container_width=True):
-            st.switch_page("pages/1_Weekly_Entry.py")
+    if st.button("📈 View Progress Analytics", key="analytics_btn", use_container_width=True):
+        st.switch_page("pages/2_Progress_Analytics.py")
     
-    with col2:
-        if st.button("📈 View Analytics", use_container_width=True):
-            st.switch_page("pages/2_Progress_Analytics.py")
+    if st.button("📋 View Workout & Diet Plan", key="plan_btn", use_container_width=True):
+        st.switch_page("pages/3_Plan_Overview.py")
     
-    with col3:
-        if st.button("📋 View Plan Details", use_container_width=True):
-            st.switch_page("pages/3_Plan_Overview.py")
-    
-    with col4:
-        if st.button("📤 Export Data", use_container_width=True):
-            # Create export functionality
-            if not body_metrics.empty or not workout_data.empty or not diet_data.empty:
-                with st.spinner("Preparing export..."):
-                    # Combine all data for export
-                    export_data = {
-                        'body_metrics': body_metrics,
-                        'workout_data': workout_data,
-                        'diet_data': diet_data
-                    }
-                    
-                    # Create a download button for CSV
-                    if not body_metrics.empty:
-                        csv = body_metrics.to_csv(index=False)
-                        st.download_button(
-                            label="Download Body Metrics CSV",
-                            data=csv,
-                            file_name=f"fitness_progress_{datetime.now().strftime('%Y%m%d')}.csv",
-                            mime="text/csv"
-                        )
-                    else:
-                        st.warning("No data to export yet!")
+    # Export functionality
+    if not body_metrics.empty or not workout_data.empty or not diet_data.empty:
+        if st.button("📤 Export Your Data", key="export_btn", use_container_width=True):
+            if not body_metrics.empty:
+                csv = body_metrics.to_csv(index=False)
+                st.download_button(
+                    label="📥 Download Body Metrics CSV",
+                    data=csv,
+                    file_name=f"fitness_progress_{datetime.now().strftime('%Y%m%d')}.csv",
+                    mime="text/csv",
+                    use_container_width=True
+                )
+            else:
+                st.warning("No data to export yet!")
+    else:
+        st.info("📝 Start tracking to enable data export")
 
 if __name__ == "__main__":
     main()

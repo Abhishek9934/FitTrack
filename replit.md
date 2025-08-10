@@ -4,6 +4,8 @@
 
 This is a Streamlit-based fitness tracking application designed to help users monitor their 7-day fat-loss workout and Indian diet plan. The application provides comprehensive tracking capabilities for body metrics, workout completion, diet adherence, and progress analytics. It follows a structured 7-day plan targeting 2,000-2,200 kcal/day with specific macro distributions (P: 170-180g, C: 180-200g, F: 55-65g) and includes detailed workout routines for different muscle groups.
 
+**Recent Updates (January 2025):** Enhanced with Progressive Web App (PWA) capabilities and mobile-first design optimizations for iOS devices. The app now features touch-friendly interfaces, installation prompts, offline functionality, and responsive layouts optimized for iPhone usage.
+
 ## User Preferences
 
 Preferred communication style: Simple, everyday language.
@@ -15,6 +17,8 @@ Preferred communication style: Simple, everyday language.
 - **Page Structure**: Main dashboard (`app.py`) with dedicated pages for weekly entry, progress analytics, and plan overview
 - **UI Components**: Sidebar navigation, tabbed interfaces, metrics displays, and interactive charts
 - **Layout**: Wide layout with responsive columns and expandable sidebar for navigation
+- **PWA Features**: Progressive Web App capabilities with manifest.json, service worker, offline support, and mobile installation prompts
+- **Mobile Design**: Touch-friendly interfaces, enhanced CSS styling, haptic feedback, and iOS-optimized layouts
 
 ### Backend Architecture
 - **Data Layer**: CSV-based file storage system managed through `DataManager` class

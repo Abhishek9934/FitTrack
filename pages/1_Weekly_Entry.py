@@ -4,12 +4,76 @@ from datetime import datetime, timedelta
 from utils.data_manager import DataManager
 from utils.workout_plans import get_weekly_plan
 
-# Configure page
+# Configure page for mobile
 st.set_page_config(
     page_title="Weekly Entry - Fitness Tracker",
     page_icon="📅",
     layout="wide"
 )
+
+# Mobile enhancements
+st.markdown("""
+<style>
+    @import url('/static/css/mobile_styles.css');
+    
+    /* Page-specific mobile optimizations */
+    .stTabs [data-baseweb="tab-list"] {
+        justify-content: space-around;
+        flex-wrap: wrap;
+    }
+    
+    .stTabs [data-baseweb="tab"] {
+        min-height: 3rem;
+        font-size: 1rem;
+        font-weight: 600;
+        flex: 1;
+        min-width: 120px;
+    }
+    
+    /* Enhanced form styling */
+    .stNumberInput > div > div {
+        margin-bottom: 1rem;
+    }
+    
+    .stCheckbox {
+        margin: 0.5rem 0;
+        padding: 0.75rem;
+        background: #F8F9FA;
+        border-radius: 8px;
+        border: 1px solid #E0E0E0;
+    }
+    
+    .stCheckbox:hover {
+        background: #E9ECEF;
+        border-color: #FF6B6B;
+    }
+    
+    /* Progress bar styling */
+    .stProgress {
+        margin: 1rem 0;
+    }
+    
+    /* Mobile date picker */
+    .stDateInput > div > div > input {
+        min-height: 3rem;
+        font-size: 1.1rem;
+        border-radius: 8px;
+    }
+    
+    /* Section headers */
+    h2, h3 {
+        color: #2C3E50;
+        margin: 1.5rem 0 1rem 0;
+    }
+    
+    /* Info boxes */
+    .stAlert {
+        border-radius: 8px;
+        margin: 1rem 0;
+        padding: 1rem;
+    }
+</style>
+""", unsafe_allow_html=True)
 
 # Initialize data manager
 data_manager = DataManager()

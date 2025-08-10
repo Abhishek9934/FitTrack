@@ -1,0 +1,319 @@
+/* Mobile-First CSS for Fitness Tracker */
+
+/* Main container adjustments */
+.main .block-container {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    max-width: 100%;
+}
+
+/* Mobile-friendly buttons */
+.stButton > button {
+    width: 100%;
+    height: 3rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border-radius: 0.75rem;
+    border: none;
+    background: linear-gradient(135deg, #FF6B6B, #FF8E53);
+    color: white;
+    box-shadow: 0 4px 12px rgba(255, 107, 107, 0.3);
+    transition: all 0.3s ease;
+    margin: 0.5rem 0;
+}
+
+.stButton > button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(255, 107, 107, 0.4);
+}
+
+.stButton > button:active {
+    transform: translateY(0);
+}
+
+/* Primary button styling */
+.stButton > button[kind="primary"] {
+    background: linear-gradient(135deg, #4ECDC4, #44A08D);
+    box-shadow: 0 4px 12px rgba(78, 205, 196, 0.3);
+}
+
+.stButton > button[kind="primary"]:hover {
+    box-shadow: 0 6px 16px rgba(78, 205, 196, 0.4);
+}
+
+/* Mobile-optimized metrics */
+.metric-container {
+    background: white;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin: 0.5rem 0;
+    border-left: 4px solid #FF6B6B;
+}
+
+/* Large touch-friendly inputs */
+.stNumberInput > div > div > input {
+    height: 3rem;
+    font-size: 1.1rem;
+    border-radius: 0.75rem;
+    border: 2px solid #E1E5E9;
+    padding: 0 1rem;
+}
+
+.stNumberInput > div > div > input:focus {
+    border-color: #FF6B6B;
+    box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.1);
+}
+
+.stSelectbox > div > div > div {
+    height: 3rem;
+    font-size: 1.1rem;
+    border-radius: 0.75rem;
+    border: 2px solid #E1E5E9;
+}
+
+.stTextArea > div > div > textarea {
+    border-radius: 0.75rem;
+    border: 2px solid #E1E5E9;
+    padding: 1rem;
+    font-size: 1rem;
+}
+
+.stTextInput > div > div > input {
+    height: 3rem;
+    font-size: 1.1rem;
+    border-radius: 0.75rem;
+    border: 2px solid #E1E5E9;
+    padding: 0 1rem;
+}
+
+/* Enhanced checkbox styling */
+.stCheckbox > label {
+    font-size: 1.1rem;
+    padding: 0.75rem;
+    background: #F8F9FA;
+    border-radius: 0.5rem;
+    margin: 0.25rem 0;
+    border: 1px solid #E1E5E9;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.stCheckbox > label:hover {
+    background: #E9ECEF;
+    border-color: #FF6B6B;
+}
+
+/* Progress bar enhancements */
+.stProgress .st-bo {
+    height: 1rem;
+    border-radius: 0.5rem;
+    background: linear-gradient(90deg, #4ECDC4, #44A08D);
+}
+
+/* Tab styling */
+.stTabs [data-baseweb="tab-list"] {
+    gap: 0.5rem;
+}
+
+.stTabs [data-baseweb="tab"] {
+    height: 3rem;
+    padding: 0 1.5rem;
+    border-radius: 0.75rem;
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+/* Card-like containers */
+.element-container {
+    background: white;
+    border-radius: 1rem;
+    padding: 1rem;
+    margin: 0.5rem 0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+/* Mobile navigation improvements */
+.css-1d391kg {
+    padding: 1rem;
+}
+
+/* Sidebar enhancements for mobile */
+.css-1lcbmhc {
+    background: linear-gradient(180deg, #FF6B6B, #FF8E53);
+    color: white;
+}
+
+.css-17eq0hr {
+    color: white;
+}
+
+/* Quick stats cards */
+.quick-stat-card {
+    background: white;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    margin: 0.5rem 0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-left: 4px solid #4ECDC4;
+}
+
+/* Mobile-specific media queries */
+@media (max-width: 768px) {
+    .main .block-container {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+    
+    /* Stack columns on mobile */
+    .row-widget.stHorizontal {
+        flex-direction: column;
+    }
+    
+    /* Larger touch targets */
+    .stButton > button {
+        height: 3.5rem;
+        font-size: 1.2rem;
+    }
+    
+    /* Improved spacing */
+    .element-container {
+        margin: 1rem 0;
+    }
+    
+    /* Hide sidebar on mobile initially */
+    .css-1lcbmhc {
+        width: 0;
+    }
+}
+
+@media (max-width: 480px) {
+    /* Extra small devices */
+    .stButton > button {
+        height: 4rem;
+        font-size: 1.3rem;
+    }
+    
+    .stNumberInput > div > div > input,
+    .stSelectbox > div > div > div,
+    .stTextInput > div > div > input {
+        height: 3.5rem;
+        font-size: 1.2rem;
+    }
+}
+
+/* Chart responsiveness */
+.js-plotly-plot .plotly .modebar {
+    display: none !important;
+}
+
+/* Loading states */
+.stSpinner > div {
+    border-color: #FF6B6B;
+}
+
+/* Alert styling */
+.stAlert {
+    border-radius: 0.75rem;
+    padding: 1rem;
+    margin: 1rem 0;
+}
+
+.stSuccess {
+    background: linear-gradient(135deg, #D4EDDA, #C3E6CB);
+    border: 1px solid #4ECDC4;
+}
+
+.stError {
+    background: linear-gradient(135deg, #F8D7DA, #F5C6CB);
+    border: 1px solid #FF6B6B;
+}
+
+.stWarning {
+    background: linear-gradient(135deg, #FFF3CD, #FFEAA7);
+    border: 1px solid #FFC107;
+}
+
+.stInfo {
+    background: linear-gradient(135deg, #D1ECF1, #B8DAFF);
+    border: 1px solid #17A2B8;
+}
+
+/* Enhanced dataframe styling */
+.dataframe {
+    border-radius: 0.75rem;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Date input styling */
+.stDateInput > div > div > input {
+    height: 3rem;
+    font-size: 1.1rem;
+    border-radius: 0.75rem;
+    border: 2px solid #E1E5E9;
+    padding: 0 1rem;
+}
+
+/* Slider enhancements */
+.stSlider > div > div > div > div {
+    background: linear-gradient(90deg, #FF6B6B, #FF8E53);
+}
+
+/* Mobile header */
+h1, h2, h3 {
+    color: #2C3E50;
+    font-weight: 700;
+}
+
+h1 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+h2 {
+    font-size: 1.5rem;
+    margin: 1.5rem 0 1rem 0;
+}
+
+h3 {
+    font-size: 1.25rem;
+    margin: 1rem 0 0.5rem 0;
+}
+
+/* Emoji enhancements for mobile */
+.emoji {
+    font-size: 1.5rem;
+    margin-right: 0.5rem;
+}
+
+/* Touch-friendly metric displays */
+.stMetric {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 1rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin: 0.5rem 0;
+    text-align: center;
+}
+
+/* Improve expander styling */
+.streamlit-expanderHeader {
+    background: #F8F9FA;
+    border-radius: 0.75rem;
+    padding: 1rem;
+    font-weight: 600;
+}
+
+/* Footer navigation */
+.footer-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: white;
+    padding: 1rem;
+    box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
