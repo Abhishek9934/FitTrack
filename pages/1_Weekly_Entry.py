@@ -3,6 +3,7 @@ import pandas as pd
 from datetime import datetime, timedelta
 from utils.data_manager import DataManager
 from utils.workout_plans import get_weekly_plan
+from utils.mobile_nav import render_mobile_navigation, add_mobile_header, add_floating_action_button
 
 # Configure page for mobile
 st.set_page_config(
@@ -79,8 +80,8 @@ st.markdown("""
 data_manager = DataManager()
 
 def main():
-    st.title("📅 Weekly Data Entry")
-    st.markdown("Enter your daily metrics, workout completion, and diet adherence")
+    # Add mobile header
+    add_mobile_header("Weekly Entry", "📅")
     
     # Date selection
     col1, col2 = st.columns([1, 2])
@@ -324,3 +325,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+    # Add mobile navigation
+    render_mobile_navigation()

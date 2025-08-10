@@ -1,7 +1,6 @@
 import pandas as pd
 import os
 from datetime import datetime
-import streamlit as st
 
 class DataManager:
     def __init__(self):
@@ -57,7 +56,7 @@ class DataManager:
                 df['date'] = pd.to_datetime(df['date'])
             return df
         except Exception as e:
-            st.error(f"Error loading body metrics: {e}")
+            print(f"Error loading body metrics: {e}")
             return pd.DataFrame()
     
     def load_workout_data(self):
@@ -68,7 +67,7 @@ class DataManager:
                 df['date'] = pd.to_datetime(df['date'])
             return df
         except Exception as e:
-            st.error(f"Error loading workout data: {e}")
+            print(f"Error loading workout data: {e}")
             return pd.DataFrame()
     
     def load_diet_data(self):
@@ -79,7 +78,7 @@ class DataManager:
                 df['date'] = pd.to_datetime(df['date'])
             return df
         except Exception as e:
-            st.error(f"Error loading diet data: {e}")
+            print(f"Error loading diet data: {e}")
             return pd.DataFrame()
     
     def save_body_metrics(self, date, weight, fat_percentage, muscle_mass=None,
@@ -104,10 +103,16 @@ class DataManager:
             }
             
             # Check if entry for this date already exists
-            existing_entry = df[df['date'].dt.date == date.date()]
-            if not existing_entry.empty:
-                # Update existing entry
-                df.loc[df['date'].dt.date == date.date()] = pd.Series(new_row).values
+            if not df.empty and 'date' in df.columns:
+                df['date'] = pd.to_datetime(df['date'])
+                existing_entry = df[df['date'].dt.date == date.date()]
+                if not existing_entry.empty:
+                    # Update existing entry
+                    for col, value in new_row.items():
+                        df.loc[df['date'].dt.date == date.date(), col] = value
+                else:
+                    # Add new entry
+                    df = pd.concat([df, pd.DataFrame([new_row])], ignore_index=True)
             else:
                 # Add new entry
                 df = pd.concat([df, pd.DataFrame([new_row])], ignore_index=True)
@@ -115,7 +120,7 @@ class DataManager:
             df.to_csv(self.body_metrics_file, index=False)
             return True
         except Exception as e:
-            st.error(f"Error saving body metrics: {e}")
+            print(f"Error saving body metrics: {e}")
             return False
     
     def save_workout_data(self, date, day, workout_type, completed, exercises_completed,
@@ -139,10 +144,16 @@ class DataManager:
             }
             
             # Check if entry for this date and workout already exists
-            existing_entry = df[(df['date'].dt.date == date.date()) & (df['day'] == day)]
-            if not existing_entry.empty:
-                # Update existing entry
-                df.loc[(df['date'].dt.date == date.date()) & (df['day'] == day)] = pd.Series(new_row).values
+            if not df.empty and 'date' in df.columns:
+                df['date'] = pd.to_datetime(df['date'])
+                existing_entry = df[(df['date'].dt.date == date.date()) & (df['day'] == day)]
+                if not existing_entry.empty:
+                    # Update existing entry
+                    for col, value in new_row.items():
+                        df.loc[(df['date'].dt.date == date.date()) & (df['day'] == day), col] = value
+                else:
+                    # Add new entry
+                    df = pd.concat([df, pd.DataFrame([new_row])], ignore_index=True)
             else:
                 # Add new entry
                 df = pd.concat([df, pd.DataFrame([new_row])], ignore_index=True)
@@ -150,7 +161,7 @@ class DataManager:
             df.to_csv(self.workout_data_file, index=False)
             return True
         except Exception as e:
-            st.error(f"Error saving workout data: {e}")
+            print(f"Error saving workout data: {e}")
             return False
     
     def save_diet_data(self, date, day, adherence_score, calories_estimated=None,
@@ -172,10 +183,16 @@ class DataManager:
             }
             
             # Check if entry for this date already exists
-            existing_entry = df[(df['date'].dt.date == date.date()) & (df['day'] == day)]
-            if not existing_entry.empty:
-                # Update existing entry
-                df.loc[(df['date'].dt.date == date.date()) & (df['day'] == day)] = pd.Series(new_row).values
+            if not df.empty and 'date' in df.columns:
+                df['date'] = pd.to_datetime(df['date'])
+                existing_entry = df[(df['date'].dt.date == date.date()) & (df['day'] == day)]
+                if not existing_entry.empty:
+                    # Update existing entry
+                    for col, value in new_row.items():
+                        df.loc[(df['date'].dt.date == date.date()) & (df['day'] == day), col] = value
+                else:
+                    # Add new entry
+                    df = pd.concat([df, pd.DataFrame([new_row])], ignore_index=True)
             else:
                 # Add new entry
                 df = pd.concat([df, pd.DataFrame([new_row])], ignore_index=True)
@@ -183,7 +200,7 @@ class DataManager:
             df.to_csv(self.diet_data_file, index=False)
             return True
         except Exception as e:
-            st.error(f"Error saving diet data: {e}")
+            print(f"Error saving diet data: {e}")
             return False
     
     def get_weekly_summary(self, week):

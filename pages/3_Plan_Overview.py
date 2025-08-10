@@ -1,5 +1,6 @@
 import streamlit as st
 from utils.workout_plans import get_weekly_plan, get_daily_targets, get_exercise_categories
+from utils.mobile_nav import render_mobile_navigation, add_mobile_header
 
 # Configure page for mobile
 st.set_page_config(
@@ -90,7 +91,8 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 def main():
-    st.title("📋 7-Day Fat-Loss Workout + Indian Diet Master Plan")
+    # Add mobile header
+    add_mobile_header("Plan Overview", "📋")
     st.markdown("**Target:** 2,000–2,200 kcal/day | **Macros:** P: 170–180g | C: 180–200g | F: 55–65g")
     
     # Overview tabs
@@ -443,3 +445,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+    # Add mobile navigation
+    render_mobile_navigation()

@@ -4,6 +4,7 @@ from datetime import datetime, timedelta
 import os
 from utils.data_manager import DataManager
 from utils.analytics import Analytics
+from utils.mobile_nav import render_mobile_navigation, add_mobile_header
 
 # Configure page for mobile-first PWA
 st.set_page_config(
@@ -124,8 +125,8 @@ inject_mobile_enhancements()
 data_manager = DataManager()
 
 def main():
-    st.title("🏋️‍♂️ Fitness Progress Tracker")
-    st.markdown("Track your 7-day workout and diet plan progress")
+    # Add mobile header instead of regular title
+    add_mobile_header("Fitness Tracker", "🏋️‍♂️")
     
     # PWA Installation prompt
     st.markdown("""
@@ -321,4 +322,7 @@ def main():
         st.info("📝 Start tracking to enable data export")
 
 if __name__ == "__main__":
+    inject_mobile_enhancements()
     main()
+    # Add mobile navigation at the bottom
+    render_mobile_navigation()

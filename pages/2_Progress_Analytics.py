@@ -3,6 +3,7 @@ import pandas as pd
 from datetime import datetime, timedelta
 from utils.data_manager import DataManager
 from utils.analytics import Analytics
+from utils.mobile_nav import render_mobile_navigation, add_mobile_header
 
 # Configure page for mobile
 st.set_page_config(
@@ -80,8 +81,8 @@ data_manager = DataManager()
 analytics = Analytics(data_manager)
 
 def main():
-    st.title("📈 Progress Analytics")
-    st.markdown("Visualize your fitness journey and track your goals")
+    # Add mobile header
+    add_mobile_header("Progress Analytics", "📈")
     
     # Load data
     body_metrics = data_manager.load_body_metrics()
@@ -388,3 +389,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+    # Add mobile navigation
+    render_mobile_navigation()
