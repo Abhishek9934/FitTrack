@@ -228,3 +228,62 @@ class DataManager:
             summary['diet_compliance'] = 0
         
         return summary
+    
+    def reset_all_data(self):
+        """Reset all data by recreating empty CSV files"""
+        try:
+            # Remove existing files
+            if os.path.exists(self.body_metrics_file):
+                os.remove(self.body_metrics_file)
+            if os.path.exists(self.workout_data_file):
+                os.remove(self.workout_data_file)
+            if os.path.exists(self.diet_data_file):
+                os.remove(self.diet_data_file)
+            
+            # Recreate empty files with headers
+            self.initialize_files()
+            return True
+        except Exception as e:
+            print(f"Error resetting data: {e}")
+            return False
+    
+    def get_data_file_info(self):
+        """Get information about data files"""
+        info = {
+            'data_directory': os.path.abspath(self.data_dir),
+            'files': []
+        }
+        
+        files_info = [
+            ('body_metrics.csv', self.body_metrics_file, 'Body measurements and metrics'),
+            ('workout_data.csv', self.workout_data_file, 'Workout completion and progress'),
+            ('diet_data.csv', self.diet_data_file, 'Diet adherence and nutrition tracking')
+        ]
+        
+        for name, path, description in files_info:
+            if os.path.exists(path):
+                file_size = os.path.getsize(path)
+                # Count rows (subtract 1 for header)
+                try:
+                    df = pd.read_csv(path)
+                    row_count = len(df)
+                except:
+                    row_count = 0
+                
+                info['files'].append({
+                    'name': name,
+                    'path': os.path.abspath(path),
+                    'description': description,
+                    'size_bytes': file_size,
+                    'row_count': row_count
+                })
+            else:
+                info['files'].append({
+                    'name': name,
+                    'path': os.path.abspath(path),
+                    'description': description,
+                    'size_bytes': 0,
+                    'row_count': 0
+                })
+        
+        return info

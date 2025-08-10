@@ -304,22 +304,65 @@ def main():
     if st.button("📋 View Workout & Diet Plan", key="plan_btn", use_container_width=True):
         st.switch_page("pages/3_Plan_Overview.py")
     
-    # Export functionality
-    if not body_metrics.empty or not workout_data.empty or not diet_data.empty:
-        if st.button("📤 Export Your Data", key="export_btn", use_container_width=True):
-            if not body_metrics.empty:
-                csv = body_metrics.to_csv(index=False)
-                st.download_button(
-                    label="📥 Download Body Metrics CSV",
-                    data=csv,
-                    file_name=f"fitness_progress_{datetime.now().strftime('%Y%m%d')}.csv",
-                    mime="text/csv",
-                    use_container_width=True
-                )
-            else:
-                st.warning("No data to export yet!")
-    else:
-        st.info("📝 Start tracking to enable data export")
+    # Data Management Section
+    st.markdown("---")
+    st.subheader("🗂️ Data Management")
+    
+    # Show data storage information
+    data_info = data_manager.get_data_file_info()
+    
+    with st.expander("📍 Data Storage Information"):
+        st.write(f"**Data Directory:** `{data_info['data_directory']}`")
+        st.write("**Data Files:**")
+        
+        for file_info in data_info['files']:
+            col1, col2, col3 = st.columns([2, 1, 1])
+            with col1:
+                st.write(f"• **{file_info['name']}** - {file_info['description']}")
+            with col2:
+                st.write(f"{file_info['row_count']} records")
+            with col3:
+                st.write(f"{file_info['size_bytes']} bytes")
+    
+    # Export and Reset functionality
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        # Export functionality
+        if not body_metrics.empty or not workout_data.empty or not diet_data.empty:
+            if st.button("📤 Export All Data", key="export_btn", use_container_width=True):
+                if not body_metrics.empty:
+                    csv = body_metrics.to_csv(index=False)
+                    st.download_button(
+                        label="📥 Download Body Metrics CSV",
+                        data=csv,
+                        file_name=f"fitness_progress_{datetime.now().strftime('%Y%m%d')}.csv",
+                        mime="text/csv",
+                        use_container_width=True
+                    )
+                else:
+                    st.warning("No data to export yet!")
+        else:
+            st.info("📝 Start tracking to enable data export")
+    
+    with col2:
+        # Reset data functionality
+        if st.button("🗑️ Reset All Data", key="reset_btn", use_container_width=True, type="secondary"):
+            st.warning("⚠️ This will permanently delete all your fitness data!")
+            
+            col_confirm, col_cancel = st.columns(2)
+            with col_confirm:
+                if st.button("✅ Confirm Reset", key="confirm_reset", use_container_width=True):
+                    if data_manager.reset_all_data():
+                        st.success("✅ All data has been reset successfully!")
+                        st.info("🔄 Please refresh the page to see the changes.")
+                        st.balloons()
+                    else:
+                        st.error("❌ Failed to reset data. Please try again.")
+            
+            with col_cancel:
+                if st.button("❌ Cancel", key="cancel_reset", use_container_width=True):
+                    st.info("Reset cancelled.")
 
 if __name__ == "__main__":
     inject_mobile_enhancements()
