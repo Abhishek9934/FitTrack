@@ -97,28 +97,43 @@ Similar to Heroku but with better pricing and performance.
 
 ## Recommended Approach for Your App
 
-Given that your app uses CSV files, I recommend **Option 2 (Docker + VPS)** for the following reasons:
+### NEW: Google Sheets Integration (Recommended for Streamlit Cloud)
+Your app now supports **Google Sheets** for data storage! This is perfect for:
+- **Streamlit Cloud**: Data persists across app restarts
+- **Accessibility**: View/edit data directly in Google Sheets  
+- **Backup**: Automatic cloud backup included
+- **Mobile**: Access from any device
 
-1. **Data Persistence**: Your CSV files will be preserved between restarts
+See `google_sheets_setup.md` for complete setup instructions.
+
+### For Custom Hosting: Docker + VPS
+If you prefer full control, **Option 2 (Docker + VPS)** provides:
+1. **Data Persistence**: Your files are preserved between restarts
 2. **Cost Effective**: $5-10/month for a basic VPS
 3. **Full Control**: You can backup, migrate, and manage your data
 4. **Scalability**: Can upgrade server resources as needed
 
-## Files I'll Create for Docker Deployment
+## Hybrid Data Storage
+Your app now automatically:
+- **Uses Google Sheets** when credentials are configured
+- **Falls back to CSV files** when Google Sheets isn't available
+- **Shows storage status** in the app interface
 
-Would you like me to create the necessary files for Docker deployment? I can generate:
+## Setup Files Created
 
-1. `Dockerfile` - Container configuration
-2. `docker-compose.yml` - Service orchestration
-3. `requirements.txt` - Python dependencies
-4. `nginx.conf` - Reverse proxy configuration
-5. `deploy.sh` - Deployment script
+✅ **Google Sheets Integration:**
+- `utils/sheets_manager.py` - Google Sheets data operations
+- `utils/hybrid_manager.py` - Automatic fallback system
+- `google_sheets_setup.md` - Complete setup guide
+- Updated `streamlit_requirements.txt` - Added Google Sheets dependencies
 
-## Data Backup Strategy
+✅ **Docker Deployment:**
+- `Dockerfile` - Container configuration  
+- `docker-compose.yml` - Service orchestration
+- `nginx.conf` - Reverse proxy with SSL
+- `deploy.sh` - Automated deployment script
 
-Since you're using CSV files, I recommend:
-1. Regular automated backups to cloud storage
-2. Version control for your data files
-3. Database migration option for future scaling
-
-Let me know which deployment option interests you most, and I'll provide detailed setup instructions!
+## Next Steps
+1. **For Streamlit Cloud**: Follow `google_sheets_setup.md` 
+2. **For Custom Hosting**: Use the Docker files provided
+3. **For Development**: App works with CSV files by default

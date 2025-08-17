@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 from datetime import datetime, timedelta
 import os
-from utils.data_manager import DataManager
+from utils.hybrid_manager import HybridManager
 from utils.analytics import Analytics
 from utils.mobile_nav import add_mobile_header
 
@@ -122,7 +122,7 @@ def inject_mobile_enhancements():
 inject_mobile_enhancements()
 
 # Initialize data manager
-data_manager = DataManager()
+data_manager = HybridManager()
 
 def main():
     # Add mobile header with FontAwesome icon
@@ -309,20 +309,40 @@ def main():
     st.subheader("🗂️ Data Management")
     
     # Show data storage information
-    data_info = data_manager.get_data_file_info()
+    storage_info = data_manager.get_storage_info()
     
     with st.expander("📍 Data Storage Information"):
-        st.write(f"**Data Directory:** `{data_info['data_directory']}`")
-        st.write("**Data Files:**")
-        
-        for file_info in data_info['files']:
-            col1, col2, col3 = st.columns([2, 1, 1])
-            with col1:
-                st.write(f"• **{file_info['name']}** - {file_info['description']}")
-            with col2:
-                st.write(f"{file_info['row_count']} records")
-            with col3:
-                st.write(f"{file_info['size_bytes']} bytes")
+        if storage_info['storage_type'] == 'Google Sheets':
+            st.write(f"**Storage Type:** {storage_info['storage_type']}")
+            if 'title' in storage_info:
+                st.write(f"**Spreadsheet:** [{storage_info['title']}]({storage_info['location']})")
+                st.write("**Worksheets:**")
+                
+                if 'worksheets' in storage_info:
+                    for ws in storage_info['worksheets']:
+                        col1, col2 = st.columns([2, 1])
+                        with col1:
+                            st.write(f"• **{ws['name']}**")
+                        with col2:
+                            st.write(f"{ws['rows']} records")
+            else:
+                st.error("**Status:** Google Sheets connection failed")
+        else:
+            st.write(f"**Storage Type:** {storage_info['storage_type']}")
+            st.write(f"**Data Directory:** `{storage_info['location']}`")
+            st.write("**Data Files:**")
+            
+            if storage_info['files']:
+                for file_info in storage_info['files']:
+                    col1, col2, col3 = st.columns([2, 1, 1])
+                    with col1:
+                        st.write(f"• **{file_info['name']}**")
+                    with col2:
+                        st.write(f"{file_info['row_count']} records")
+                    with col3:
+                        st.write(f"{file_info['size']} size")
+            else:
+                st.write("No data files found.")
     
     # Export and Reset functionality
     col1, col2 = st.columns(2)

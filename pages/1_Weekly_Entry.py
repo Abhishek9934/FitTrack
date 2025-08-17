@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 from datetime import datetime, timedelta
-from utils.data_manager import DataManager
+from utils.hybrid_manager import HybridManager
 from utils.workout_plans import get_weekly_plan
 from utils.mobile_nav import add_mobile_header
 
@@ -77,7 +77,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # Initialize data manager
-data_manager = DataManager()
+data_manager = HybridManager()
 
 def main():
     # Add mobile header with FontAwesome icon
